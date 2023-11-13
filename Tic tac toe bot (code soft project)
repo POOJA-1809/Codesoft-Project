@@ -1,0 +1,103 @@
+#CodeSoft Project
+#Tic tac toe bot
+
+import random
+
+board = [' ' for _ in range(9)]
+
+def db(board):
+    for i in range(0, 9, 3):
+        print(" | ".join(board[i:i+3]))
+        if i < 6:
+            print("-" * 9)
+
+def check_win(board, player):
+    win_combinations = [(0, 1, 2), (3, 4, 5),(6, 7, 8),
+(0, 3, 6), (1, 4, 7), (2, 5, 8),(0, 4, 8), (2, 4, 6)]
+    
+    for combo in win_combinations:
+        if all(board[i] == player for i in combo):
+            return True
+    return False
+
+def board_full(board):
+    return ' ' not in board
+
+def ai_move(board, ai_player, human_player):
+    best_score = -float('inf')
+    best_move = None
+    
+    for i in range(9):
+        if board[i] == ' ':
+            board[i] = ai_player
+            score = minimax(board, 0, False, ai_player, human_player)
+            board[i] = ' '
+            
+            if score > best_score:
+                best_score = score
+                best_move = i
+    
+    board[best_move] = ai_player
+
+def minimax(board, depth, is_maximizing, ai_player, human_player):
+    if check_win(board, ai_player):
+        return 1
+    elif check_win(board, human_player):
+        return -1
+    elif board_full(board):
+        return 0
+
+    if is_maximizing:
+        best_score = -float('inf')
+        for i in range(9):
+            if board[i] == ' ':
+                board[i] = ai_player
+                score = minimax(board, depth + 1, False, ai_player, human_player)
+                board[i] = ' '
+                best_score = max(score, best_score)
+        return best_score
+    else:
+        best_score = float('inf')
+        for i in range(9):
+            if board[i] == ' ':
+                board[i] = human_player
+                score = minimax(board, depth + 1, True, ai_player, human_player)
+                board[i] = ' '
+                best_score = min(score, best_score)
+        return best_score
+
+def play_game():
+    db(board)
+    human_player = 'X'
+    ai_player = 'O'
+
+    while True:
+        while True:
+            human_move = int(input("Enter your move (1-9): ")) - 1
+            if 0 <= human_move < 9 and board[human_move] == ' ':
+                board[human_move] = human_player
+                break
+            else:
+                print("Invalid move. Use your brain")
+        
+        db(board)
+        
+        if check_win(board, human_player):
+            print("You win!")
+            break
+        if board_full(board):
+            print("It's a draw better luck next time!")
+            break
+        
+        ai_move(board, ai_player, human_player)
+        db(board)
+        
+        if check_win(board, ai_player):
+            print(" Yowai mo AI wins!")
+            break
+        if board_full(board):
+            print("It's a draw better luck next time!")
+            break
+
+if __name__ == "__main__":
+    play_game()
