@@ -1,0 +1,72 @@
+def chatbot_Athena(user_input):
+    user_input_lower = user_input.lower()
+
+    if "hi" in user_input_lower:
+        return "Hey! How may I assist you today?"
+
+    elif "how are you" in user_input_lower:
+        return "I'm doing well, thank you! How about yourself?"
+
+    elif "whats your name" in user_input_lower:
+        return "I'm Athena the chatbot!"
+
+    elif any(keyword in user_input_lower for keyword in ["tell me something about you"]):
+        return "My name is a tribute to a Greek goddess ATHENA who was the goddess of wisdom and knowledge"
+
+    elif any(keyword in user_input_lower for keyword in ["bye"]):
+        return "Farewell! Wishing you a fantastic day."
+
+    elif "weather" in user_input_lower:
+        return "Today's weather is good, but it'll rain moderately."
+
+    elif "thanks" in user_input_lower:
+        return "I was glad to assist you"
+
+    elif "nothing" in user_input_lower:
+        return "ok"
+
+    elif any(keyword in user_input_lower for keyword in ["how can you assist me", "what can you do"]):
+        return "As a chatbot, I can chat with you and answer your questions. I'm also good at basic maths."
+
+    elif any(keyword in user_input_lower for keyword in ["recommend me something"]):
+        return "Read some books, talk to people, do your work."
+
+    elif "technology" in user_input_lower:
+        return "The technology in today's world is growing rapidly; soon, we'll take over humans ;)"
+
+    elif "maths" in user_input_lower:
+        return "Yes, I can do basic maths such as Addition, Subtraction, Multiplication, division, etc."
+
+    elif any(operation in user_input_lower for operation in ["add", "subtract", "multiply", "divide", "reminder"]):
+        try:
+            a = float(input("Enter 1st number: "))
+            b = float(input("Enter 2nd number: "))
+
+            if b == 0 and ("divide" in user_input_lower or "reminder" in user_input_lower):
+                return "Cannot perform the operation. Please provide a non-zero divisor."
+
+            if "add" in user_input_lower:
+                return f"The result is: {a + b}"
+            elif "subtract" in user_input_lower:
+                return f"The result is: {a - b}"
+            elif "multiply" in user_input_lower:
+                return f"The result is: {a * b}"
+            elif "divide" in user_input_lower:
+                return f"The result is: {a / b}"
+            elif "reminder" in user_input_lower:
+                return f"The result is: {a % b}"
+            else:
+                return "Invalid operation. Please check your input."
+        except ValueError:
+            return "Invalid input. Please provide numeric values for the operation."
+
+    else:
+        return "I'm sorry, I couldn't understand that. Can you please rephrase?"
+
+while True:
+    user_query = input("You: ")
+    if user_query.lower() == 'exit':
+        print("Chatbot: Until we meet again!")
+        break
+    response = chatbot_Athena(user_query)
+    print("Chatbot:", response)
